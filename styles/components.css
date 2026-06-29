@@ -1,0 +1,363 @@
+/**
+ * Component Styles for StudyTask
+ * Styles for specific UI components and interactions
+ */
+
+/* ============================================================================
+   Task Items
+   ============================================================================ */
+
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #fafbfc;
+  border: 1px solid #e0e6ed;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  background-color: #f0f3f7;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.task-item.completed {
+  opacity: 0.7;
+  background-color: #f5f9f5;
+  border-color: #c8e6c9;
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.task-item.overdue {
+  border-left: 4px solid #ff9800;
+  background-color: #fff3e0;
+}
+
+.task-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.task-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.task-status-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: #667eea;
+}
+
+.task-status-checkbox:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  word-break: break-word;
+  flex: 1;
+  margin: 0;
+}
+
+.task-priority {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Priority colors */
+.task-priority:contains("🟢") {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.task-priority:contains("🟡") {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.task-priority:contains("🔴") {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.task-details {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.task-discipline,
+.task-date,
+.task-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.task-edit-btn,
+.task-delete-btn {
+  padding: 0.5rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.task-edit-btn:hover {
+  background-color: #f0f3f7;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.task-delete-btn:hover {
+  background-color: #ffebee;
+  border-color: #d32f2f;
+  color: #d32f2f;
+}
+
+.task-edit-btn:focus,
+.task-delete-btn:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Mobile task item adjustments */
+@media (max-width: 480px) {
+  .task-item {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .task-actions {
+    width: 100%;
+  }
+
+  .task-edit-btn,
+  .task-delete-btn {
+    flex: 1;
+  }
+
+  .task-details {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ============================================================================
+   Modal Styles
+   ============================================================================ */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal[aria-hidden="true"] {
+  display: none;
+}
+
+.modal[aria-hidden="false"] {
+  display: flex;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e6ed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-close:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #e0e6ed;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.modal-body p {
+  margin: 0;
+  color: #666;
+}
+
+/* Mobile modal adjustments */
+@media (max-width: 480px) {
+  .modal-content {
+    max-height: 100%;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================================
+   Priority Options (Radio Buttons)
+   ============================================================================ */
+
+.priority-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.radio-label:hover {
+  background-color: #f5f5f5;
+}
+
+.radio-label input[type="radio"] {
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.radio-label input[type="radio"]:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   Form Group Fieldset Styles
+   ============================================================================ */
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* ============================================================================
+   Screen Reader Only Text
+   ============================================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

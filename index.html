@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyTask - Gestor de Tarefas Acadêmicas</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>StudyTask</h1>
+            <p class="subtitle">Seu gestor de tarefas acadêmicas</p>
+        </header>
+
+        <main class="app-main">
+            <!-- Filter Buttons -->
+            <section class="filter-section">
+                <h2 class="sr-only">Filtrar tarefas</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all" aria-label="Mostrar todas as tarefas">
+                        Todas
+                    </button>
+                    <button class="filter-btn" data-filter="pending" aria-label="Mostrar apenas tarefas pendentes">
+                        Pendentes
+                    </button>
+                    <button class="filter-btn" data-filter="completed" aria-label="Mostrar apenas tarefas concluídas">
+                        Concluídas
+                    </button>
+                </div>
+            </section>
+
+            <!-- Task Creation Form -->
+            <section class="form-section">
+                <h2>Criar Nova Tarefa</h2>
+                <form id="taskForm" class="task-form" novalidate>
+                    <div class="form-group">
+                        <label for="taskTitle">Título *</label>
+                        <input 
+                            type="text" 
+                            id="taskTitle" 
+                            name="title" 
+                            placeholder="Ex: Resolver lista de exercícios de Cálculo"
+                            maxlength="500"
+                            required
+                            aria-describedby="titleError"
+                        >
+                        <span id="titleError" class="error-message" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDiscipline">Disciplina *</label>
+                        <input 
+                            type="text" 
+                            id="taskDiscipline" 
+                            name="discipline" 
+                            placeholder="Ex: Cálculo I"
+                            maxlength="100"
+                            required
+                            aria-describedby="disciplineError"
+                        >
+                        <span id="disciplineError" class="error-message" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDate">Data de Vencimento *</label>
+                        <input 
+                            type="date" 
+                            id="taskDate" 
+                            name="dueDate" 
+                            required
+                            aria-describedby="dateError"
+                        >
+                        <span id="dateError" class="error-message" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend>Prioridade</legend>
+                            <div class="priority-options">
+                                <label class="radio-label">
+                                    <input type="radio" name="priority" value="Low" aria-describedby="priorityHelp">
+                                    Baixa
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="priority" value="Medium" checked aria-describedby="priorityHelp">
+                                    Média
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="priority" value="High" aria-describedby="priorityHelp">
+                                    Alta
+                                </label>
+                            </div>
+                            <span id="priorityHelp" class="sr-only">Prioridade padrão é Média</span>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+                        <button type="reset" class="btn btn-secondary">Limpar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Task List -->
+            <section class="task-list-section">
+                <h2 id="taskListTitle">Suas Tarefas</h2>
+                <div id="taskList" class="task-list" role="list" aria-labelledby="taskListTitle">
+                    <!-- Tasks rendered here -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; 2026 StudyTask. Desenvolvido com HTML5, CSS3 e JavaScript Puro.</p>
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="editModalTitle">Editar Tarefa</h2>
+                <button class="modal-close" aria-label="Fechar modal">×</button>
+            </div>
+            <form id="editForm" class="task-form" novalidate>
+                <div class="form-group">
+                    <label for="editTitle">Título *</label>
+                    <input 
+                        type="text" 
+                        id="editTitle" 
+                        name="title" 
+                        maxlength="500"
+                        required
+                        aria-describedby="editTitleError"
+                    >
+                    <span id="editTitleError" class="error-message" role="alert"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDiscipline">Disciplina *</label>
+                    <input 
+                        type="text" 
+                        id="editDiscipline" 
+                        name="discipline" 
+                        maxlength="100"
+                        required
+                        aria-describedby="editDisciplineError"
+                    >
+                    <span id="editDisciplineError" class="error-message" role="alert"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDate">Data de Vencimento *</label>
+                    <input 
+                        type="date" 
+                        id="editDate" 
+                        name="dueDate" 
+                        required
+                        aria-describedby="editDateError"
+                    >
+                    <span id="editDateError" class="error-message" role="alert"></span>
+                </div>
+
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Prioridade</legend>
+                        <div class="priority-options">
+                            <label class="radio-label">
+                                <input type="radio" name="priority" value="Low">
+                                Baixa
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="priority" value="Medium">
+                                Média
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="priority" value="High">
+                                Alta
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    <button type="button" class="btn btn-secondary modal-close-btn">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal" role="dialog" aria-labelledby="confirmModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle">Confirmar Exclusão</h2>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Tem certeza que deseja deletar esta tarefa? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-cancel">Cancelar</button>
+                <button type="button" class="btn btn-danger modal-confirm">Deletar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/task-manager.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
